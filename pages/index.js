@@ -1,4 +1,65 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
+
+function Pagination({ currentPage, totalPages, onPageChange, disabled = false }){
+  // Generate page numbers with ellipsis for large page counts
+  const getPageNumbers = () => {
+    const pages = [];
+    const delta = 2; // pages to show around current page
+
+    for(let i = 1; i <= totalPages; i++){
+      if(
+        i === 1 ||
+        i === totalPages ||
+        (i >= currentPage - delta && i <= currentPage + delta)
+      ){
+        pages.push(i);
+      } else if(pages.length > 0 && pages[pages.length - 1] !== '...'){
+        pages.push('...');
+      }
+    }
+    return pages;
+  };
+
+  const pageNumbers = getPageNumbers();
+
+  return (
+    <div className="pagination" role="navigation" aria-label="Pagination">
+      <button
+        className="pagination-btn pagination-nav"
+        onClick={() => onPageChange(currentPage - 1)}
+        disabled={disabled || currentPage === 1}
+        aria-label="Previous page"
+      >
+        &lt; Prev
+      </button>
+
+      {pageNumbers.map((num, i) => (
+        num === '...' ? (
+          <span key={`ellipsis-${i}`} className="pagination-ellipsis">...</span>
+        ) : (
+          <button
+            key={num}
+            className={`pagination-btn ${num === currentPage ? 'active' : ''}`}
+            onClick={() => onPageChange(num)}
+            disabled={disabled}
+            aria-current={num === currentPage ? 'page' : undefined}
+          >
+            {num}
+          </button>
+        )
+      ))}
+
+      <button
+        className="pagination-btn pagination-nav"
+        onClick={() => onPageChange(currentPage + 1)}
+        disabled={disabled || currentPage === totalPages}
+        aria-label="Next page"
+      >
+        Next &gt;
+      </button>
+    </div>
+  );
+}
 
 function SearchBar({ onSearch, fields = [], universities = [], debounceMs = 300 }){
   const [q, setQ] = useState('');
@@ -159,23 +220,23 @@ export default function Home(){
     });
   }
 
-  function handleSearch(f){
+  const handleSearch = useCallback((f) => {
     setFilters(f);
     const filtered = applyFilters(allVacancies, f);
     setFilteredVacancies(filtered);
     setVacancies(filtered.slice(0, PAGE_SIZE));
     setPage(1);
     setHasMore(filtered.length > PAGE_SIZE);
+  }, [allVacancies, PAGE_SIZE]);
+
+  function goToPage(n){
+    if(n < 1 || n > totalPages) return;
+    const start = (n - 1) * PAGE_SIZE;
+    setVacancies(filteredVacancies.slice(start, start + PAGE_SIZE));
+    setPage(n);
   }
 
-  function loadMore(){
-    const nextPage = page + 1;
-    const start = (nextPage - 1) * PAGE_SIZE;
-    const nextItems = filteredVacancies.slice(start, start + PAGE_SIZE);
-    setVacancies(prev => [...prev, ...nextItems]);
-    setPage(nextPage);
-    setHasMore(filteredVacancies.length > nextPage * PAGE_SIZE);
-  }
+  const totalPages = Math.max(1, Math.ceil(filteredVacancies.length / PAGE_SIZE));
 
   return (
     <div className="container">
@@ -226,7 +287,14 @@ export default function Home(){
             {vacancies.map(v => <VacancyCard key={v.id} v={v} />)}
           </div>
 
-          {hasMore && <button disabled={loading} onClick={()=>loadMore()} className="load-more">{loading ? 'Loading...' : 'Load more'}</button>}
+          {totalPages > 1 && (
+            <Pagination
+              currentPage={page}
+              totalPages={totalPages}
+              onPageChange={goToPage}
+              disabled={loading}
+            />
+          )}
         </div>
       </div>
 

@@ -44,4 +44,12 @@ body{
 .university-item a:hover{text-decoration:underline}
 .load-more{display:block;margin:18px auto;padding:10px 16px;border-radius:10px;background:transparent;border:1px solid rgba(2,6,23,0.06);color:var(--text)}
 
+.pagination{display:flex;gap:8px;justify-content:center;align-items:center;margin:24px 0;flex-wrap:wrap}
+.pagination-btn{background:transparent;border:1px solid rgba(2,6,23,0.06);padding:8px 10px;border-radius:8px;cursor:pointer;color:var(--text);font-size:14px;transition:all 0.2s ease}
+.pagination-btn:hover:not(:disabled){background:var(--glass)}
+.pagination-btn.active{background:var(--accent);color:white;border-color:var(--accent);font-weight:600}
+.pagination-btn:disabled{opacity:0.5;cursor:not-allowed}
+.pagination-btn.pagination-nav{font-weight:500}
+.pagination-ellipsis{color:var(--muted);padding:0 4px}
+
 @media (max-width:900px){.grid{grid-template-columns:1fr}}
