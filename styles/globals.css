@@ -29,6 +29,16 @@ body{
 .card{background:var(--card);padding:16px;border-radius:10px;border:1px solid rgba(2,6,23,0.06);box-shadow:0 6px 20px rgba(2,6,23,0.03)}
 .card-title{font-weight:700;font-size:16px}
 .card-meta{color:var(--muted);font-size:13px;margin-top:8px}
+
+/* Vacancy card layout */
+.institution-line{display:flex;align-items:center;gap:8px;margin-top:8px}
+.building-icon{width:18px;height:18px;flex:0 0 18px;color:var(--muted)}
+.subject-line{margin-top:6px;color:var(--muted)}
+.card-footer{display:flex;align-items:center;justify-content:space-between;margin-top:12px}
+.btn-apply{background:linear-gradient(90deg,var(--accent),#5b21b6);color:white;padding:8px 12px;border-radius:999px;border:0;text-decoration:none;display:inline-flex;align-items:center;gap:8px;cursor:pointer}
+.btn-apply:hover{filter:brightness(0.95)}
+.btn-apply[disabled]{opacity:0.6;cursor:not-allowed;background:rgba(0,0,0,0.06);color:var(--muted)}
+
 .university-list{margin:0;padding:0}
 .university-item a{font-size:14px;color:var(--accent);text-decoration:none}
 .university-item a:hover{text-decoration:underline}

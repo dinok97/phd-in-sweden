@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-import Link from 'next/link';
 
 function SearchBar({ onSearch, fields = [], universities = [], debounceMs = 300 }){
   const [q, setQ] = useState('');
@@ -36,12 +35,51 @@ function SearchBar({ onSearch, fields = [], universities = [], debounceMs = 300 
   );
 }
 
+function formatDeadline(d){
+  if(!d) return '—';
+  const s = String(d);
+  const m = s.match(/^Date\(\s*(\d{4}),\s*(\d{1,2}),\s*(\d{1,2})\s*\)$/i);
+  if(m){
+    const year = m[1];
+    const month = String(m[2]).padStart(2,'0');
+    const day = String(m[3]).padStart(2,'0');
+    return `${year}-${month}-${day}`;
+  }
+  const parsed = new Date(s);
+  if(!isNaN(parsed)){
+    const y = parsed.getFullYear();
+    const mm = String(parsed.getMonth()+1).padStart(2,'0');
+    const dd = String(parsed.getDate()).padStart(2,'0');
+    return `${y}-${mm}-${dd}`;
+  }
+  return s;
+}
+
 function VacancyCard({ v }){
   return (
     <div className="card" style={{marginBottom:12}}>
-      <div className="card-title"><Link href={`/listing/${v.id}`}>{v.vacancy || v.subject || 'Untitled'}</Link></div>
-      <div className="card-meta">{v.institution} · {v.subject}</div>
-      <div className="card-meta">Deadline: {v.deadline || '—'}</div>
+      <div className="card-title">{v.vacancy || v.subject || 'Untitled'}</div>
+
+      <div className="institution-line">
+        <svg className="building-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <path d="M3 11l9-6 9 6v9a1 1 0 0 1-1 1h-4v-6H8v6H4a1 1 0 0 1-1-1v-9zM9 19h6v1H9v-1z" fill="currentColor"/>
+        </svg>
+        <div style={{fontWeight:600}}>{v.institution || v.raw?.Institution || '—'}</div>
+      </div>
+
+      <div className="card-meta subject-line">{v.subject || v.raw?.Subject || '—'}</div>
+
+      <div className="card-footer">
+        <div className="card-meta">Application Deadline: {formatDeadline(v.deadline)}</div>
+        {(v.link || v.raw?.Link) ? (
+          <a className="btn-apply" href={v.link || v.raw?.Link} target="_blank" rel="noopener noreferrer">
+            Apply
+            <svg viewBox="0 0 24 24" width="14" height="14" style={{marginLeft:8,opacity:0.9}} xmlns="http://www.w3.org/2000/svg"><path d="M2 21l21-9L2 3v7l15 2-15 2v7z" fill="currentColor"/></svg>
+          </a>
+        ) : (
+          <button className="btn-apply" disabled>Apply</button>
+        )}
+      </div>
     </div>
   );
 }
