@@ -82,7 +82,7 @@ function SearchBar({ onSearch, fields = [], universities = [], debounceMs = 300 
 
   return (
     <form className="searchbar" onSubmit={submit}>
-      <input aria-label="Search" className="input" placeholder="Search universities, subject, vacancies..." value={q} onChange={e=>setQ(e.target.value)} />
+      <input aria-label="Search" className="input search-input" placeholder="Search universities, subject, vacancies..." value={q} onChange={e=>setQ(e.target.value)} />
       <select className="input" value={field} onChange={e=>setField(e.target.value)}>
         <option value="">All fields</option>
         {fields.map(f => <option key={f} value={f}>{f}</option>)}

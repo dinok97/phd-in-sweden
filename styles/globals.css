@@ -24,6 +24,8 @@ body{
 .hero{padding:48px 24px;border-radius:12px;background:linear-gradient(180deg, rgba(0,0,0,0.02), rgba(0,0,0,0.01));box-shadow:0 6px 20px rgba(2,6,23,0.04);}
 .searchbar{display:flex;gap:12px;align-items:center}
 .input{background:var(--glass);border:1px solid rgba(2,6,23,0.06);padding:12px 14px;border-radius:10px;color:var(--text);min-width:0}
+/* Make the main search input expand and be easier to type in */
+.search-input{flex:1;min-width:220px;font-size:14px;padding:14px 16px}
 .btn{background:var(--accent);padding:10px 14px;border-radius:10px;color:white;border:0;cursor:pointer}
 .grid{display:grid;grid-template-columns:260px 1fr;gap:20px;margin-top:24px}
 .card{background:var(--card);padding:16px;border-radius:10px;border:1px solid rgba(2,6,23,0.06);box-shadow:0 6px 20px rgba(2,6,23,0.03)}
@@ -53,3 +55,17 @@ body{
 .pagination-ellipsis{color:var(--muted);padding:0 4px}
 
 @media (max-width:900px){.grid{grid-template-columns:1fr}}
+
+/* Mobile: move search bar to top and stack controls for easier use */
+@media (max-width:600px){
+  .hero{display:flex;flex-direction:column;gap:12px}
+  .hero .searchbar{order:-1;width:100%;display:flex;flex-direction:column;gap:10px;align-items:stretch}
+  .hero .searchbar .input{width:100%;flex:0 0 auto}
+  .hero .searchbar .btn{width:100%}
+  .search-input{min-width:0}
+
+  /* On mobile, show listings before the sidebar (Filters/Universities) */
+  .grid{display:flex;flex-direction:column;gap:12px}
+  .grid > div:first-child{order:2}
+  .grid > div:last-child{order:1}
+}
