@@ -132,14 +132,46 @@ function VacancyCard({ v }){
 
       <div className="card-footer">
         <div className="card-meta">Application Deadline: {formatDeadline(v.deadline)}</div>
-        {(v.link || v.raw?.Link) ? (
-          <a className="btn-apply" href={v.link || v.raw?.Link} target="_blank" rel="noopener noreferrer">
-            Apply
-            <svg viewBox="0 0 24 24" width="14" height="14" style={{marginLeft:8,opacity:0.9}} xmlns="http://www.w3.org/2000/svg"><path d="M2 21l21-9L2 3v7l15 2-15 2v7z" fill="currentColor"/></svg>
-          </a>
-        ) : (
-          <button className="btn-apply" disabled>Apply</button>
-        )}
+        <div className="card-actions">
+          {/* Add to calendar button (Google Calendar) */}
+          {(() => {
+            const fd = formatDeadline(v.deadline);
+            const m = String(fd).match(/^(\d{4})-(\d{2})-(\d{2})$/);
+            let dates = '';
+            if(m){
+              const start = `${m[1]}${m[2]}${m[3]}`;
+              const endDate = new Date(`${m[1]}-${m[2]}-${m[3]}`);
+              endDate.setDate(endDate.getDate() + 1);
+              const y = endDate.getFullYear();
+              const mm = String(endDate.getMonth()+1).padStart(2,'0');
+              const dd = String(endDate.getDate()).padStart(2,'0');
+              const end = `${y}${mm}${dd}`;
+              dates = `${start}/${end}`;
+            }
+
+            const title = encodeURIComponent(v.vacancy || v.subject || 'PhD vacancy');
+            const details = encodeURIComponent((v.institution ? v.institution + '\n' : '') + (v.link || v.raw?.Link || ''));
+            const location = encodeURIComponent(v.institution || '');
+            const href = `https://www.google.com/calendar/render?action=TEMPLATE&text=${title}${dates ? `&dates=${dates}` : ''}&details=${details}&location=${location}`;
+
+            return dates ? (
+              <a className="btn-calendar" href={href} target="_blank" rel="noopener noreferrer" title="Add deadline to Google Calendar">
+                Add to Calendar
+              </a>
+            ) : (
+              <button className="btn-calendar" disabled title="No deadline available">Add to Calendar</button>
+            );
+          })()}
+
+          {(v.link || v.raw?.Link) ? (
+            <a className="btn-apply" href={v.link || v.raw?.Link} target="_blank" rel="noopener noreferrer">
+              Apply
+              <svg viewBox="0 0 24 24" width="14" height="14" style={{marginLeft:8,opacity:0.9}} xmlns="http://www.w3.org/2000/svg"><path d="M2 21l21-9L2 3v7l15 2-15 2v7z" fill="currentColor"/></svg>
+            </a>
+          ) : (
+            <button className="btn-apply" disabled>Apply</button>
+          )}
+        </div>
       </div>
     </div>
   );
