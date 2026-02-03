@@ -330,6 +330,12 @@ export default function Home(){
         </div>
       </div>
 
+      <footer className="site-footer" aria-label="Site footer">
+        <div className="site-footer-inner">
+          <small className="footer-text">Made to support your PhD journey by PPI Swedia</small>
+        </div>
+      </footer>
+
     </div>
   );
-}
+} 
