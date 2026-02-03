@@ -274,9 +274,7 @@ export default function Home(){
     <div className="container">
       <header className="site-header">
         <div className="logo" aria-label="Site logo">
-          {/* Add your logo at /public/logo.svg or replace with your own markup */}
-          <img src="/logo.svg" alt="PhD in Sweden" style={{height:40}} onError={(e)=>{e.target.style.display='none'}} />
-          <strong style={{marginLeft:8}}>PhD in Sweden</strong>
+          <img src="/pis_logo.svg" alt="PhD in Sweden" style={{height:50}} onError={(e)=>{e.target.style.display='none'}} />
         </div>
         <nav style={{marginLeft:'auto'}} />
       </header>
