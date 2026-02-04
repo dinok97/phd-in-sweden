@@ -203,9 +203,9 @@ export default function Home(){
       setHasMore(items.length > PAGE_SIZE);
 
       // derive facets from full data (updated column names)
-      const uniqUnis = Array.from(new Set(items.map(i=>i.institution || i.raw?.Institution).filter(Boolean))).slice(0,50);
+      const uniqUnis = Array.from(new Set(items.map(i=>i.institution || i.raw?.Institution).filter(Boolean)));
       setUniversitiesList(uniqUnis);
-      const uniqFields = Array.from(new Set(items.map(i=>i.subject || i.raw?.Subject).filter(Boolean))).slice(0,50);
+      const uniqFields = Array.from(new Set(items.map(i=>i.subject || i.raw?.Subject).filter(Boolean)));
       setFieldsList(uniqFields);
 
       // fetch university link list for sidebar (from /api/universities)
