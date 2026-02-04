@@ -1,4 +1,5 @@
 import { getVacancyData } from '../../get-data.js';
+import { formatDeadline } from '../helper/date-helper.js';
 
 export default async function handler(req, res){
   try{
@@ -13,7 +14,7 @@ export default async function handler(req, res){
       vacancy: r['Vacancy'] || r['Subject'] || null,
       institution: r['Institution'] || null,
       subject: r['Subject'] || null,
-      deadline: r['Deadline'] || null,
+      deadline: formatDeadline(r['Deadline']) || null,
       link: r['Link'] || null,
       raw: r
     }));

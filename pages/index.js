@@ -96,26 +96,6 @@ function SearchBar({ onSearch, fields = [], universities = [], debounceMs = 300 
   );
 }
 
-function formatDeadline(d){
-  if(!d) return '—';
-  const s = String(d);
-  const m = s.match(/^Date\(\s*(\d{4}),\s*(\d{1,2}),\s*(\d{1,2})\s*\)$/i);
-  if(m){
-    const year = m[1];
-    const month = String(m[2]).padStart(2,'0');
-    const day = String(m[3]).padStart(2,'0');
-    return `${year}-${month}-${day}`;
-  }
-  const parsed = new Date(s);
-  if(!isNaN(parsed)){
-    const y = parsed.getFullYear();
-    const mm = String(parsed.getMonth()+1).padStart(2,'0');
-    const dd = String(parsed.getDate()).padStart(2,'0');
-    return `${y}-${mm}-${dd}`;
-  }
-  return s;
-}
-
 function VacancyCard({ v }){
   return (
     <div className="card" style={{marginBottom:12}}>
@@ -131,11 +111,11 @@ function VacancyCard({ v }){
       <div className="card-meta subject-line">{v.subject || v.raw?.Subject || '—'}</div>
 
       <div className="card-footer">
-        <div className="card-meta">Application Deadline: {formatDeadline(v.deadline)}</div>
+        <div className="card-meta">Application Deadline: {v.deadline}</div>
         <div className="card-actions">
           {/* Add to calendar button (Google Calendar) */}
           {(() => {
-            const fd = formatDeadline(v.deadline);
+            const fd = v.deadline;
             const m = String(fd).match(/^(\d{4})-(\d{2})-(\d{2})$/);
             let dates = '';
             if(m){
