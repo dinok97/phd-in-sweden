@@ -184,9 +184,9 @@ export default function Home(){
 
       // derive facets from full data (updated column names)
       const uniqUnis = Array.from(new Set(items.map(i=>i.institution || i.raw?.Institution).filter(Boolean)));
-      setUniversitiesList(uniqUnis);
+      setUniversitiesList(uniqUnis.sort());
       const uniqFields = Array.from(new Set(items.map(i=>i.subject || i.raw?.Subject).filter(Boolean)));
-      setFieldsList(uniqFields);
+      setFieldsList(uniqFields.sort());
 
       // fetch university link list for sidebar (from /api/universities)
       try{
