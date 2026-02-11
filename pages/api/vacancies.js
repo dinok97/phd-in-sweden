@@ -1,4 +1,4 @@
-import { getVacancyData } from '../../get-data.js';
+import { getVacancyData } from './get-data.js';
 import { formatDeadline } from '../../helpers/date-helper.js';
 
 export default async function handler(req, res){
