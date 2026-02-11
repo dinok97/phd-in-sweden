@@ -8,11 +8,10 @@ Quick start
 
 Files of interest
 
-- `get-data.js` — existing data fetcher (re-used by API routes)
-- `pages/api/vacancies.js` — returns vacancy list with filtering & pagination
-- `pages/api/universities.js` — returns university list
+- `pages/api/get-data.js` — existing data fetcher (re-used by API routes)
+- `pages/api/vacancies-all.js` — returns all vacancy list
+- `pages/api/universities.js` — returns all university list
 - `pages/index.js` — home/listing UI
-- `pages/listing/[id].js` — listing detail page
 
 Notes
 
